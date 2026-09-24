@@ -46,8 +46,6 @@
             ((System.ComponentModel.ISupportInitialize)trackBarVolumen).BeginInit();
 
             SuspendLayout();
-
-            // FORM
             AutoScaleDimensions =
                 new System.Drawing.SizeF(7F, 15F);
 
@@ -72,8 +70,6 @@
 
             Text = "MediaPlayer Mini";
             TopMost = true;
-
-            // TITULO
             lblTitulo.AutoEllipsis = true;
             lblTitulo.Font =
                 new System.Drawing.Font(
@@ -91,8 +87,6 @@
                 new System.Drawing.Size(335, 23);
 
             lblTitulo.Text = "MediaPlayer";
-
-            // RESTAURAR
             btnRestaurar.BackColor =
                 System.Drawing.Color.FromArgb(45, 45, 48);
 
@@ -114,8 +108,6 @@
 
             btnRestaurar.Click +=
                 btnRestaurar_Click;
-
-            // CERRAR MINI
             btnCerrar.BackColor =
                 System.Drawing.Color.FromArgb(45, 45, 48);
 
@@ -137,8 +129,6 @@
 
             btnCerrar.Click +=
                 btnCerrar_Click;
-
-            // PROGRESO
             trackBarProgreso.AutoSize = false;
 
             trackBarProgreso.Location =
@@ -157,8 +147,6 @@
 
             trackBarProgreso.MouseMove +=
                 trackBarProgreso_MouseMove;
-
-            // TIEMPO
             lblTiempo.Font =
                 new System.Drawing.Font(
                     "Segoe UI",
@@ -179,8 +167,6 @@
 
             lblTiempo.TextAlign =
                 System.Drawing.ContentAlignment.MiddleRight;
-
-            // ANTERIOR
             btnAnterior.BackColor =
                 System.Drawing.Color.FromArgb(
                     45, 45, 48);
@@ -203,8 +189,6 @@
 
             btnAnterior.Click +=
                 btnAnterior_Click;
-
-            // PLAY
             btnPlayPause.BackColor =
                 System.Drawing.Color.FromArgb(
                     0, 120, 215);
@@ -227,8 +211,6 @@
 
             btnPlayPause.Click +=
                 btnPlayPause_Click;
-
-            // SIGUIENTE
             btnSiguiente.BackColor =
                 System.Drawing.Color.FromArgb(
                     45, 45, 48);
@@ -251,8 +233,6 @@
 
             btnSiguiente.Click +=
                 btnSiguiente_Click;
-
-            // VOLUMEN
             trackBarVolumen.AutoSize = false;
 
             trackBarVolumen.Location =
@@ -270,8 +250,6 @@
 
             trackBarVolumen.Scroll +=
                 trackBarVolumen_Scroll;
-
-            // LABEL VOLUMEN
             lblVolumen.Font =
                 new System.Drawing.Font(
                     "Segoe UI",

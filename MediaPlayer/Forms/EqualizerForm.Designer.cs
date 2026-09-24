@@ -122,8 +122,6 @@ namespace MediaPlayer.Forms
             ((ISupportInitialize)trackBar4K).BeginInit();
             ((ISupportInitialize)trackBar8K).BeginInit();
             ((ISupportInitialize)trackBar16K).BeginInit();
-
-            // FORM
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(24, 24, 27);
@@ -144,8 +142,6 @@ namespace MediaPlayer.Forms
             StartPosition = FormStartPosition.CenterParent;
             Text = "Ecualizador";
             ForeColor = Color.White;
-
-            // TITULO
             lblTitulo.AutoSize = true;
             lblTitulo.Font = new Font("Segoe UI", 16F, FontStyle.Bold);
             lblTitulo.ForeColor = Color.White;
@@ -153,8 +149,6 @@ namespace MediaPlayer.Forms
             lblTitulo.Name = "lblTitulo";
             lblTitulo.Size = new Size(135, 30);
             lblTitulo.Text = "Ecualizador";
-
-            // PRESET
             lblPreset.AutoSize = true;
             lblPreset.ForeColor = Color.LightGray;
             lblPreset.Location = new Point(205, 27);
@@ -178,8 +172,6 @@ namespace MediaPlayer.Forms
             cmbPresets.Size = new Size(180, 23);
             cmbPresets.TabIndex = 0;
             cmbPresets.SelectedIndexChanged += new EventHandler(cmbPresets_SelectedIndexChanged);
-
-            // PREAMP
             lblPreamp.AutoSize = true;
             lblPreamp.ForeColor = Color.LightGray;
             lblPreamp.Location = new Point(470, 27);
@@ -203,8 +195,6 @@ namespace MediaPlayer.Forms
             lblPreampValor.Size = new Size(70, 23);
             lblPreampValor.Text = "0 dB";
             lblPreampValor.TextAlign = ContentAlignment.MiddleCenter;
-
-            // PANEL DE BANDAS
             panelBandas.BackColor = Color.FromArgb(30, 30, 34);
             panelBandas.BorderStyle = BorderStyle.FixedSingle;
             panelBandas.Controls.Add(lblFrecuencia31);
@@ -255,8 +245,6 @@ namespace MediaPlayer.Forms
             ConfigurarBanda(trackBar4K, lblValor4K, lblFrecuencia4K, 566, "trackBar4K", "4 kHz");
             ConfigurarBanda(trackBar8K, lblValor8K, lblFrecuencia8K, 644, "trackBar8K", "8 kHz");
             ConfigurarBanda(trackBar16K, lblValor16K, lblFrecuencia16K, 722, "trackBar16K", "16 kHz");
-
-            // BOTON RESTABLECER
             btnNormal.BackColor = Color.FromArgb(45, 45, 48);
             btnNormal.FlatAppearance.BorderSize = 0;
             btnNormal.FlatStyle = FlatStyle.Flat;
@@ -268,8 +256,6 @@ namespace MediaPlayer.Forms
             btnNormal.Text = "Restablecer";
             btnNormal.UseVisualStyleBackColor = false;
             btnNormal.Click += new EventHandler(btnNormal_Click);
-
-            // BOTON CERRAR
             btnCerrar.BackColor = Color.FromArgb(45, 45, 48);
             btnCerrar.DialogResult = DialogResult.OK;
             btnCerrar.FlatAppearance.BorderSize = 0;

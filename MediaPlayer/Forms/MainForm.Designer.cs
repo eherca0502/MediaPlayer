@@ -89,10 +89,6 @@ namespace MediaPlayer.Forms
 
             SuspendLayout();
 
-            // =====================================================
-            // PANEL VIDEO
-            // =====================================================
-
             panelVideo.Anchor =
                 AnchorStyles.Top |
                 AnchorStyles.Bottom |
@@ -119,10 +115,6 @@ namespace MediaPlayer.Forms
 
             panelVideo.TabIndex = 0;
 
-            // =====================================================
-            // VIDEO VIEW
-            // =====================================================
-
             videoView1.BackColor =
                 Color.Black;
 
@@ -148,10 +140,6 @@ namespace MediaPlayer.Forms
             videoView1.Text =
                 "videoView1";
 
-            // =====================================================
-            // VISUALIZADOR DE AUDIO
-            // =====================================================
-
             panelAudioVisualizer.BackColor =
                 Color.FromArgb(18, 18, 20);
 
@@ -172,10 +160,6 @@ namespace MediaPlayer.Forms
             panelAudioVisualizer.Visible =
                 false;
 
-            // =====================================================
-            // PANEL CONTROLES
-            // =====================================================
-
             panelControles.Anchor =
                 AnchorStyles.Bottom |
                 AnchorStyles.Left |
@@ -194,10 +178,6 @@ namespace MediaPlayer.Forms
                 new Size(690, 105);
 
             panelControles.TabIndex = 1;
-
-            // =====================================================
-            // TIEMPO ACTUAL
-            // =====================================================
 
             lblTiempoActual.AutoSize =
                 true;
@@ -218,10 +198,6 @@ namespace MediaPlayer.Forms
 
             lblTiempoActual.Text =
                 "00:00";
-
-            // =====================================================
-            // BARRA DE PROGRESO
-            // =====================================================
 
             trackBarProgreso.Anchor =
                 AnchorStyles.Top |
@@ -251,10 +227,6 @@ namespace MediaPlayer.Forms
             trackBarProgreso.Scroll +=
                 trackBarProgreso_Scroll;
 
-            // =====================================================
-            // DURACIÓN
-            // =====================================================
-
             lblDuracion.Anchor =
                 AnchorStyles.Top |
                 AnchorStyles.Right;
@@ -278,10 +250,6 @@ namespace MediaPlayer.Forms
 
             lblDuracion.Text =
                 "00:00";
-
-            // =====================================================
-            // BOTÓN ABRIR
-            // =====================================================
 
             btnAbrir.BackColor =
                 Color.FromArgb(45, 45, 48);
@@ -315,10 +283,6 @@ namespace MediaPlayer.Forms
             btnAbrir.Click +=
                 btnAbrir_Click;
 
-            // =====================================================
-            // ANTERIOR
-            // =====================================================
-
             btnAnterior.BackColor =
                 Color.FromArgb(45, 45, 48);
 
@@ -350,10 +314,6 @@ namespace MediaPlayer.Forms
 
             btnAnterior.Click +=
                 btnAnterior_Click;
-
-            // =====================================================
-            // PLAY / PAUSE
-            // =====================================================
 
             btnPlayPause.BackColor =
                 Color.FromArgb(55, 55, 58);
@@ -393,10 +353,6 @@ namespace MediaPlayer.Forms
             btnPlayPause.Click +=
                 btnPlayPause_Click;
 
-            // =====================================================
-            // STOP
-            // =====================================================
-
             btnStop.BackColor =
                 Color.FromArgb(45, 45, 48);
 
@@ -428,10 +384,6 @@ namespace MediaPlayer.Forms
 
             btnStop.Click +=
                 btnStop_Click;
-
-            // =====================================================
-            // SIGUIENTE
-            // =====================================================
 
             btnSiguiente.BackColor =
                 Color.FromArgb(45, 45, 48);
@@ -465,10 +417,6 @@ namespace MediaPlayer.Forms
             btnSiguiente.Click +=
                 btnSiguiente_Click;
 
-            // =====================================================
-            // PANTALLA COMPLETA
-            // =====================================================
-
             btnPantallaCompleta.BackColor =
                 Color.FromArgb(45, 45, 48);
 
@@ -500,10 +448,6 @@ namespace MediaPlayer.Forms
 
             btnPantallaCompleta.Click +=
                 btnPantallaCompleta_Click;
-
-            // =====================================================
-            // REPETIR
-            // =====================================================
 
             btnRepetir.BackColor =
                 Color.FromArgb(45, 45, 48);
@@ -537,10 +481,6 @@ namespace MediaPlayer.Forms
             btnRepetir.Click +=
                 btnRepetir_Click;
 
-            // =====================================================
-            // ALEATORIO
-            // =====================================================
-
             btnAleatorio.BackColor =
                 Color.FromArgb(45, 45, 48);
 
@@ -572,10 +512,6 @@ namespace MediaPlayer.Forms
 
             btnAleatorio.Click +=
                 btnAleatorio_Click;
-
-            // =====================================================
-            // ECUALIZADOR
-            // =====================================================
 
             btnEcualizador.BackColor =
                 Color.FromArgb(45, 45, 48);
@@ -609,10 +545,6 @@ namespace MediaPlayer.Forms
             btnEcualizador.Click +=
                 btnEcualizador_Click;
 
-            // =====================================================
-            // ICONO VOLUMEN
-            // =====================================================
-
             lblVolumen.Anchor =
                 AnchorStyles.Top |
                 AnchorStyles.Right;
@@ -636,10 +568,6 @@ namespace MediaPlayer.Forms
 
             lblVolumen.Text =
                 "🔊";
-
-            // =====================================================
-            // VOLUMEN
-            // =====================================================
 
             trackBarVolumen.Anchor =
                 AnchorStyles.Top |
@@ -670,10 +598,6 @@ namespace MediaPlayer.Forms
 
             trackBarVolumen.Scroll +=
                 trackBarVolumen_Scroll;
-
-            // =====================================================
-            // AGREGAR CONTROLES AL PANEL
-            // =====================================================
 
             panelControles.Controls.Add(
                 lblTiempoActual);
@@ -717,10 +641,6 @@ namespace MediaPlayer.Forms
             panelControles.Controls.Add(
                 trackBarVolumen);
 
-            // =====================================================
-            // LABEL PLAYLIST
-            // =====================================================
-
             lblPlaylist.Anchor =
                 AnchorStyles.Top |
                 AnchorStyles.Right;
@@ -750,10 +670,6 @@ namespace MediaPlayer.Forms
 
             lblPlaylist.Text =
                 "Playlist";
-
-            // =====================================================
-            // LISTA PLAYLIST
-            // =====================================================
 
             lstPlaylist.Anchor =
                 AnchorStyles.Top |
@@ -792,10 +708,6 @@ namespace MediaPlayer.Forms
             lstPlaylist.DoubleClick +=
                 lstPlaylist_DoubleClick;
 
-            // =====================================================
-            // AGREGAR
-            // =====================================================
-
             btnAgregar.Anchor =
                 AnchorStyles.Bottom |
                 AnchorStyles.Right;
@@ -831,10 +743,6 @@ namespace MediaPlayer.Forms
 
             btnAgregar.Click +=
                 btnAgregar_Click;
-
-            // =====================================================
-            // ELIMINAR
-            // =====================================================
 
             btnEliminar.Anchor =
                 AnchorStyles.Bottom |
@@ -872,10 +780,6 @@ namespace MediaPlayer.Forms
             btnEliminar.Click +=
                 btnEliminar_Click;
 
-            // =====================================================
-            // LIMPIAR
-            // =====================================================
-
             btnLimpiar.Anchor =
                 AnchorStyles.Bottom |
                 AnchorStyles.Right;
@@ -911,10 +815,6 @@ namespace MediaPlayer.Forms
 
             btnLimpiar.Click +=
                 btnLimpiar_Click;
-
-            // =====================================================
-            // MAIN FORM
-            // =====================================================
 
             AutoScaleDimensions =
                 new SizeF(

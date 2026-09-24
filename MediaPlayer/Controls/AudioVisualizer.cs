@@ -67,10 +67,6 @@ namespace MediaPlayer.Controls
             _timer.Start();
         }
 
-        // =========================================================
-        // FFT REAL
-        // =========================================================
-
         public void SetSpectrum(float[] spectrum)
         {
             if (spectrum == null)
@@ -82,8 +78,6 @@ namespace MediaPlayer.Controls
                 Math.Min(
                     spectrum.Length,
                     NumeroBarras);
-
-            // Copiar datos recibidos
             for (int i = 0; i < cantidad; i++)
             {
                 float valor =
@@ -106,10 +100,6 @@ namespace MediaPlayer.Controls
                     valor;
             }
 
-            // =====================================================
-            // SUAVIZADO MUY LIGERO
-            // =====================================================
-
             for (int i = 0; i < cantidad; i++)
             {
                 float izquierda =
@@ -130,10 +120,6 @@ namespace MediaPlayer.Controls
                     izquierda * 0.15f +
                     derecha * 0.15f;
             }
-
-            // =====================================================
-            // REALCE MUY LIGERO DE GRAVES
-            // =====================================================
 
             for (int i = 0; i < cantidad; i++)
             {
@@ -167,10 +153,6 @@ namespace MediaPlayer.Controls
             Invalidate();
         }
 
-        // =========================================================
-        // ANIMACIÓN
-        // =========================================================
-
         private void Timer_Tick(
             object sender,
             EventArgs e)
@@ -184,8 +166,6 @@ namespace MediaPlayer.Controls
 
                 float actual =
                     _alturas[i];
-
-                // Las barras suben rápido.
                 if (objetivo > actual)
                 {
                     actual +=
@@ -194,7 +174,6 @@ namespace MediaPlayer.Controls
                 }
                 else
                 {
-                    // Las barras bajan lentamente.
                     actual +=
                         (objetivo - actual) *
                         0.18f;
@@ -216,10 +195,6 @@ namespace MediaPlayer.Controls
 
             Invalidate();
         }
-
-        // =========================================================
-        // DIBUJAR
-        // =========================================================
 
         protected override void OnPaint(
             PaintEventArgs e)
@@ -250,10 +225,6 @@ namespace MediaPlayer.Controls
                 return;
             }
 
-            // =====================================================
-            // FONDO
-            // =====================================================
-
             using (LinearGradientBrush fondo =
                 new LinearGradientBrush(
                     ClientRectangle,
@@ -271,10 +242,6 @@ namespace MediaPlayer.Controls
                     fondo,
                     ClientRectangle);
             }
-
-            // =====================================================
-            // TITULO
-            // =====================================================
 
             using (Font fuente =
                 new Font(
@@ -297,10 +264,6 @@ namespace MediaPlayer.Controls
                         22);
                 }
             }
-
-            // =====================================================
-            // ESTADO
-            // =====================================================
 
             using (Font fuente =
                 new Font(
@@ -330,10 +293,6 @@ namespace MediaPlayer.Controls
                         50);
                 }
             }
-
-            // =====================================================
-            // ÁREA DE BARRAS
-            // =====================================================
 
             int margenIzquierdo = 24;
             int margenDerecho = 24;
@@ -376,10 +335,6 @@ namespace MediaPlayer.Controls
                 arriba +
                 areaAlto;
 
-            // =====================================================
-            // LÍNEA BASE
-            // =====================================================
-
             using (Pen linea =
                 new Pen(
                     Color.FromArgb(
@@ -396,10 +351,6 @@ namespace MediaPlayer.Controls
                     ancho - margenDerecho,
                     lineaY);
             }
-
-            // =====================================================
-            // BARRAS
-            // =====================================================
 
             for (int i = 0;
                  i < NumeroBarras;
@@ -444,10 +395,6 @@ namespace MediaPlayer.Controls
                             anchoBarra,
                             altura);
 
-                    // =================================================
-                    // BARRA
-                    // =================================================
-
                     using (LinearGradientBrush barra =
                         new LinearGradientBrush(
                             rectangulo,
@@ -466,10 +413,6 @@ namespace MediaPlayer.Controls
                             rectangulo,
                             3f);
                     }
-
-                    // =================================================
-                    // BRILLO SUPERIOR
-                    // =================================================
 
                     if (altura >= 4)
                     {
@@ -499,10 +442,6 @@ namespace MediaPlayer.Controls
                                 2f);
                         }
                     }
-
-                    // =================================================
-                    // REFLEJO
-                    // =================================================
 
                     float reflejoAltura =
                         Math.Min(
@@ -540,10 +479,6 @@ namespace MediaPlayer.Controls
                     }
                 }
             }
-
-            // =====================================================
-            // ETIQUETAS
-            // =====================================================
 
             using (Font fuente =
                 new Font(
@@ -605,10 +540,6 @@ namespace MediaPlayer.Controls
             }
         }
 
-        // =========================================================
-        // DISPOSE
-        // =========================================================
-
         protected override void Dispose(
             bool disposing)
         {
@@ -624,10 +555,6 @@ namespace MediaPlayer.Controls
             base.Dispose(disposing);
         }
     }
-
-    // =============================================================
-    // EXTENSIONES PARA RECTÁNGULOS REDONDEADOS
-    // =============================================================
 
     internal static class GraphicsExtensions
     {

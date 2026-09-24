@@ -15,10 +15,6 @@ namespace MediaPlayer.Forms
 
         private System.Windows.Forms.Timer _timer;
 
-        // =========================================================
-        // VISUALIZADOR DE AUDIO
-        // =========================================================
-
         private System.Windows.Forms.Timer _audioVisualizerTimer;
 
         private readonly Random _visualizerRandom =
@@ -29,10 +25,6 @@ namespace MediaPlayer.Forms
 
         private bool _reproduciendoAudio = false;
 
-        // =========================================================
-        // PLAYLIST
-        // =========================================================
-
         private readonly List<MediaItem> _playlist =
             new List<MediaItem>();
 
@@ -41,15 +33,7 @@ namespace MediaPlayer.Forms
         private bool _repetir = false;
         private bool _aleatorio = false;
 
-        // =========================================================
-        // MINI REPRODUCTOR
-        // =========================================================
-
         private MiniPlayerForm _miniPlayer;
-
-        // =========================================================
-        // FULLSCREEN
-        // =========================================================
 
         private bool _pantallaCompleta = false;
 
@@ -61,10 +45,6 @@ namespace MediaPlayer.Forms
         private Rectangle _boundsPanelVideoAnterior;
 
         private Screen _pantallaAnterior;
-
-        // =========================================================
-        // POSICIONES ORIGINALES
-        // =========================================================
 
         private Rectangle _boundsBtnAbrir;
         private Rectangle _boundsBtnAnterior;
@@ -83,10 +63,6 @@ namespace MediaPlayer.Forms
         private Rectangle _boundsLblDuracion;
         private Rectangle _boundsLblVolumen;
 
-        // =========================================================
-        // CONSTRUCTOR
-        // =========================================================
-
         public MainForm()
         {
             InitializeComponent();
@@ -103,10 +79,6 @@ namespace MediaPlayer.Forms
             videoView1.MediaPlayer =
                 _mediaPlayer;
 
-            // =====================================================
-            // TIMER DE PROGRESO
-            // =====================================================
-
             _timer =
                 new System.Windows.Forms.Timer();
 
@@ -116,10 +88,6 @@ namespace MediaPlayer.Forms
 
             _timer.Start();
 
-            // =====================================================
-            // TIMER DEL VISUALIZADOR
-            // =====================================================
-
             _audioVisualizerTimer =
                 new System.Windows.Forms.Timer();
 
@@ -128,39 +96,19 @@ namespace MediaPlayer.Forms
             _audioVisualizerTimer.Tick +=
                 AudioVisualizerTimer_Tick;
 
-            // =====================================================
-            // FIN DE REPRODUCCIÓN
-            // =====================================================
-
             _mediaPlayer.EndReached +=
                 MediaPlayer_EndReached;
-
-            // =====================================================
-            // VOLUMEN
-            // =====================================================
 
             _mediaPlayer.Volume =
                 trackBarVolumen.Value;
 
             ActualizarIconoVolumen();
 
-            // =====================================================
-            // TECLADO
-            // =====================================================
-
             KeyPreview = true;
 
             KeyDown += MainForm_KeyDown;
 
-            // =====================================================
-            // GUARDAR POSICIONES
-            // =====================================================
-
             GuardarPosicionesOriginales();
-
-            // =====================================================
-            // CONFIGURAR VISUALIZADOR
-            // =====================================================
 
             panelAudioVisualizer.Visible = false;
 
@@ -170,10 +118,6 @@ namespace MediaPlayer.Forms
             panelAudioVisualizer.Paint +=
                 panelAudioVisualizer_Paint;
         }
-
-        // =========================================================
-        // GUARDAR POSICIONES ORIGINALES
-        // =========================================================
 
         private void GuardarPosicionesOriginales()
         {
@@ -208,10 +152,6 @@ namespace MediaPlayer.Forms
                 lblVolumen.Bounds;
         }
 
-        // =========================================================
-        // ABRIR ARCHIVO
-        // =========================================================
-
         private void btnAbrir_Click(
             object sender,
             EventArgs e)
@@ -238,10 +178,6 @@ namespace MediaPlayer.Forms
                     true);
             }
         }
-
-        // =========================================================
-        // AGREGAR ARCHIVOS
-        // =========================================================
 
         private void btnAgregar_Click(
             object sender,
@@ -279,10 +215,6 @@ namespace MediaPlayer.Forms
             }
         }
 
-        // =========================================================
-        // AGREGAR ARCHIVO A PLAYLIST
-        // =========================================================
-
         private void AgregarArchivo(
             string filePath,
             bool reproducir)
@@ -318,10 +250,6 @@ namespace MediaPlayer.Forms
             }
         }
 
-        // =========================================================
-        // DOBLE CLICK PLAYLIST
-        // =========================================================
-
         private void lstPlaylist_DoubleClick(
             object sender,
             EventArgs e)
@@ -332,11 +260,6 @@ namespace MediaPlayer.Forms
             ReproducirIndice(
                 lstPlaylist.SelectedIndex);
         }
-
-
-        // =========================================================
-        // MINIMIZAR / RESTAURAR
-        // =========================================================
 
         protected override void OnResize(EventArgs e)
         {
@@ -355,10 +278,6 @@ namespace MediaPlayer.Forms
                 OcultarMiniPlayer();
             }
         }
-
-        // =========================================================
-        // REPRODUCIR
-        // =========================================================
 
         private void ReproducirIndice(
             int index)
@@ -386,19 +305,12 @@ namespace MediaPlayer.Forms
 
             try
             {
-                // =================================================
-                // DETECTAR SI ES AUDIO
-                // =================================================
 
                 bool esAudio =
                     EsArchivoDeAudio(item.FilePath);
 
                 _reproduciendoAudio =
                     esAudio;
-
-                // =================================================
-                // MOSTRAR VIDEO O VISUALIZADOR
-                // =================================================
 
                 if (esAudio)
                 {
@@ -408,10 +320,6 @@ namespace MediaPlayer.Forms
                 {
                     MostrarVideo();
                 }
-
-                // =================================================
-                // CREAR MEDIA
-                // =================================================
 
                 using var media =
                     new Media(
@@ -441,10 +349,6 @@ namespace MediaPlayer.Forms
                     "MediaPlayer - " +
                     item.FileName;
 
-                // =================================================
-                // INICIAR VISUALIZADOR
-                // =================================================
-
                 if (esAudio)
                 {
                     IniciarVisualizadorAudio();
@@ -465,10 +369,6 @@ namespace MediaPlayer.Forms
             }
         }
 
-        // =========================================================
-        // DETECTAR AUDIO
-        // =========================================================
-
         private bool EsArchivoDeAudio(
             string filePath)
         {
@@ -485,10 +385,6 @@ namespace MediaPlayer.Forms
                    extension == ".wma";
         }
 
-        // =========================================================
-        // MOSTRAR VISUALIZADOR
-        // =========================================================
-
         private void MostrarVisualizadorAudio()
         {
             videoView1.Visible = false;
@@ -500,10 +396,6 @@ namespace MediaPlayer.Forms
             panelAudioVisualizer.Invalidate();
         }
 
-        // =========================================================
-        // MOSTRAR VIDEO
-        // =========================================================
-
         private void MostrarVideo()
         {
             DetenerVisualizadorAudio();
@@ -514,10 +406,6 @@ namespace MediaPlayer.Forms
 
             videoView1.BringToFront();
         }
-
-        // =========================================================
-        // INICIAR VISUALIZADOR
-        // =========================================================
 
         private void IniciarVisualizadorAudio()
         {
@@ -539,10 +427,6 @@ namespace MediaPlayer.Forms
             panelAudioVisualizer.Invalidate();
         }
 
-        // =========================================================
-        // DETENER VISUALIZADOR
-        // =========================================================
-
         private void DetenerVisualizadorAudio()
         {
             if (_audioVisualizerTimer != null)
@@ -557,10 +441,6 @@ namespace MediaPlayer.Forms
                 panelAudioVisualizer.Invalidate();
             }
         }
-
-        // =========================================================
-        // ANIMACIÓN DEL VISUALIZADOR
-        // =========================================================
 
         private void AudioVisualizerTimer_Tick(
             object sender,
@@ -596,10 +476,6 @@ namespace MediaPlayer.Forms
 
             panelAudioVisualizer.Invalidate();
         }
-
-        // =========================================================
-        // DIBUJAR VISUALIZADOR
-        // =========================================================
 
         private void panelAudioVisualizer_Paint(
             object sender,
@@ -684,10 +560,6 @@ namespace MediaPlayer.Forms
             }
         }
 
-        // =========================================================
-        // PLAY / PAUSE
-        // =========================================================
-
         private void btnPlayPause_Click(
             object sender,
             EventArgs e)
@@ -723,10 +595,6 @@ namespace MediaPlayer.Forms
             }
         }
 
-        // =========================================================
-        // STOP
-        // =========================================================
-
         private void btnStop_Click(
             object sender,
             EventArgs e)
@@ -748,10 +616,6 @@ namespace MediaPlayer.Forms
                 "00:00";
         }
 
-        // =========================================================
-        // ANTERIOR
-        // =========================================================
-
         private void btnAnterior_Click(
             object sender,
             EventArgs e)
@@ -771,10 +635,6 @@ namespace MediaPlayer.Forms
             }
         }
 
-        // =========================================================
-        // SIGUIENTE
-        // =========================================================
-
         private void btnSiguiente_Click(
             object sender,
             EventArgs e)
@@ -784,10 +644,6 @@ namespace MediaPlayer.Forms
 
             ReproducirSiguiente();
         }
-
-        // =========================================================
-        // REPRODUCIR SIGUIENTE
-        // =========================================================
 
         private void ReproducirSiguiente()
         {
@@ -853,10 +709,6 @@ namespace MediaPlayer.Forms
                 siguienteIndex);
         }
 
-        // =========================================================
-        // FIN DE REPRODUCCIÓN
-        // =========================================================
-
         private void MediaPlayer_EndReached(
             object sender,
             EventArgs e)
@@ -878,10 +730,6 @@ namespace MediaPlayer.Forms
                 ReproducirSiguiente();
             }));
         }
-
-        // =========================================================
-        // VOLUMEN
-        // =========================================================
 
         private void trackBarVolumen_Scroll(
             object sender,
@@ -914,10 +762,6 @@ namespace MediaPlayer.Forms
                     "🔊";
             }
         }
-
-        // =========================================================
-        // TIMER DE PROGRESO
-        // =========================================================
 
         private void Timer_Tick(
             object sender,
@@ -961,10 +805,6 @@ namespace MediaPlayer.Forms
             ActualizarMiniPlayer();
         }
 
-        // =========================================================
-        // FORMATO TIEMPO
-        // =========================================================
-
         private string FormatTime(
             long milliseconds)
         {
@@ -981,10 +821,6 @@ namespace MediaPlayer.Forms
             return time.ToString(
                 @"mm\:ss");
         }
-
-        // =========================================================
-        // BARRA DE PROGRESO
-        // =========================================================
 
         private void trackBarProgreso_Scroll(
             object sender,
@@ -1003,10 +839,6 @@ namespace MediaPlayer.Forms
             _mediaPlayer.Time =
                 newTime;
         }
-
-        // =========================================================
-        // ELIMINAR
-        // =========================================================
 
         private void btnEliminar_Click(
             object sender,
@@ -1080,10 +912,6 @@ namespace MediaPlayer.Forms
             }
         }
 
-        // =========================================================
-        // LIMPIAR PLAYLIST
-        // =========================================================
-
         private void btnLimpiar_Click(
             object sender,
             EventArgs e)
@@ -1130,10 +958,6 @@ namespace MediaPlayer.Forms
                 "MediaPlayer";
         }
 
-        // =========================================================
-        // REPETIR
-        // =========================================================
-
         private void btnRepetir_Click(
             object sender,
             EventArgs e)
@@ -1164,10 +988,6 @@ namespace MediaPlayer.Forms
                     "🔁";
             }
         }
-
-        // =========================================================
-        // ALEATORIO
-        // =========================================================
 
         private void btnAleatorio_Click(
             object sender,
@@ -1212,9 +1032,6 @@ namespace MediaPlayer.Forms
         {
             if (!_pantallaCompleta)
             {
-                // =================================================
-                // GUARDAR ESTADO ACTUAL
-                // =================================================
 
                 _formBorderStyleAnterior =
                     FormBorderStyle;
@@ -1234,10 +1051,6 @@ namespace MediaPlayer.Forms
                 _pantallaAnterior =
                     Screen.FromControl(this);
 
-                // =================================================
-                // FULLSCREEN
-                // =================================================
-
                 FormBorderStyle =
                     FormBorderStyle.None;
 
@@ -1252,10 +1065,6 @@ namespace MediaPlayer.Forms
                 _pantallaCompleta =
                     true;
 
-                // =================================================
-                // OCULTAR PLAYLIST
-                // =================================================
-
                 lblPlaylist.Visible = false;
                 lstPlaylist.Visible = false;
 
@@ -1263,15 +1072,7 @@ namespace MediaPlayer.Forms
                 btnEliminar.Visible = false;
                 btnLimpiar.Visible = false;
 
-                // =================================================
-                // OCULTAR PANEL DE CONTROLES
-                // =================================================
-
                 panelControles.Visible = false;
-
-                // =================================================
-                // OCULTAR CONTROLES
-                // =================================================
 
                 btnAbrir.Visible = false;
                 btnAnterior.Visible = false;
@@ -1290,10 +1091,6 @@ namespace MediaPlayer.Forms
                 lblTiempoActual.Visible = false;
                 lblDuracion.Visible = false;
                 lblVolumen.Visible = false;
-
-                // =================================================
-                // VIDEO / AUDIO A TODA LA PANTALLA
-                // =================================================
 
                 panelVideo.Dock =
                     DockStyle.Fill;
@@ -1329,10 +1126,6 @@ namespace MediaPlayer.Forms
 
                 panelVideo.BringToFront();
 
-                // =================================================
-                // EVITAR QUE VIDEO TOME EL TECLADO
-                // =================================================
-
                 videoView1.TabStop = false;
 
                 Focus();
@@ -1343,18 +1136,10 @@ namespace MediaPlayer.Forms
             }
         }
 
-        // =========================================================
-        // SALIR FULLSCREEN
-        // =========================================================
-
         private void SalirPantallaCompleta()
         {
             if (!_pantallaCompleta)
                 return;
-
-            // =====================================================
-            // RESTAURAR FORMULARIO
-            // =====================================================
 
             TopMost = false;
 
@@ -1379,10 +1164,6 @@ namespace MediaPlayer.Forms
             _pantallaCompleta =
                 false;
 
-            // =====================================================
-            // RESTAURAR PANEL VIDEO
-            // =====================================================
-
             panelVideo.Dock =
                 DockStyle.None;
 
@@ -1401,10 +1182,6 @@ namespace MediaPlayer.Forms
             panelAudioVisualizer.Dock =
                 DockStyle.Fill;
 
-            // =====================================================
-            // RESTAURAR PLAYLIST
-            // =====================================================
-
             lblPlaylist.Visible = true;
             lstPlaylist.Visible = true;
 
@@ -1412,22 +1189,10 @@ namespace MediaPlayer.Forms
             btnEliminar.Visible = true;
             btnLimpiar.Visible = true;
 
-            // =====================================================
-            // RESTAURAR PANEL CONTROLES
-            // =====================================================
-
             panelControles.Visible =
                 true;
 
-            // =====================================================
-            // RESTAURAR POSICIONES
-            // =====================================================
-
             RestaurarPosicionesOriginales();
-
-            // =====================================================
-            // MOSTRAR CONTROLES
-            // =====================================================
 
             MostrarControlesNormales();
 
@@ -1455,10 +1220,6 @@ namespace MediaPlayer.Forms
 
             Focus();
         }
-
-        // =========================================================
-        // RESTAURAR POSICIONES ORIGINALES
-        // =========================================================
 
         private void RestaurarPosicionesOriginales()
         {
@@ -1502,10 +1263,6 @@ namespace MediaPlayer.Forms
                 _boundsLblVolumen;
         }
 
-        // =========================================================
-        // MOSTRAR CONTROLES NORMALES
-        // =========================================================
-
         private void MostrarControlesNormales()
         {
             btnAbrir.Visible = true;
@@ -1535,10 +1292,6 @@ namespace MediaPlayer.Forms
             lblVolumen.Visible = true;
         }
 
-        // =========================================================
-        // TECLADO
-        // =========================================================
-
         private void MainForm_KeyDown(
             object sender,
             KeyEventArgs e)
@@ -1549,21 +1302,14 @@ namespace MediaPlayer.Forms
             e.SuppressKeyPress = true;
         }
 
-        // =========================================================
-        // PROCESAR TECLA
-        // =========================================================
-
         private void ProcesarTecla(
             Keys tecla)
         {
-            // F11
             if (tecla == Keys.F11)
             {
                 CambiarPantallaCompleta();
                 return;
             }
-
-            // ESC
             if (tecla == Keys.Escape)
             {
                 if (_pantallaCompleta)
@@ -1574,35 +1320,26 @@ namespace MediaPlayer.Forms
                 return;
             }
 
-            // ESPACIO
             if (tecla == Keys.Space)
             {
                 btnPlayPause.PerformClick();
                 return;
             }
-
-            // DERECHA
             if (tecla == Keys.Right)
             {
                 Adelantar();
                 return;
             }
-
-            // IZQUIERDA
             if (tecla == Keys.Left)
             {
                 Retroceder();
                 return;
             }
-
-            // ARRIBA
             if (tecla == Keys.Up)
             {
                 CambiarVolumen(5);
                 return;
             }
-
-            // ABAJO
             if (tecla == Keys.Down)
             {
                 CambiarVolumen(-5);
@@ -1610,9 +1347,6 @@ namespace MediaPlayer.Forms
             }
         }
 
-        // =========================================================
-        // PROCESS CMD KEY
-        // =========================================================
 
         protected override bool ProcessCmdKey(
             ref Message msg,
@@ -1639,10 +1373,6 @@ namespace MediaPlayer.Forms
                 keyData);
         }
 
-        // =========================================================
-        // ADELANTAR 10 SEGUNDOS
-        // =========================================================
-
         private void Adelantar()
         {
             if (_mediaPlayer == null)
@@ -1665,9 +1395,6 @@ namespace MediaPlayer.Forms
                 nuevoTiempo;
         }
 
-        // =========================================================
-        // RETROCEDER 10 SEGUNDOS
-        // =========================================================
 
         private void Retroceder()
         {
@@ -1689,9 +1416,6 @@ namespace MediaPlayer.Forms
                 nuevoTiempo;
         }
 
-        // =========================================================
-        // CAMBIAR VOLUMEN
-        // =========================================================
 
         private void CambiarVolumen(
             int cantidad)
@@ -1718,10 +1442,6 @@ namespace MediaPlayer.Forms
             ActualizarIconoVolumen();
         }
 
-
-        // =========================================================
-        // MINI REPRODUCTOR
-        // =========================================================
 
         private void CrearMiniPlayer()
         {

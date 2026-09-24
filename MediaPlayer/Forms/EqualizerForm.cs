@@ -17,10 +17,6 @@ namespace MediaPlayer.Forms
 
         private bool _actualizando = false;
 
-        // =========================================================
-        // FRECUENCIAS
-        // =========================================================
-
         private readonly string[] _frecuencias =
         {
             "31 Hz",
@@ -35,55 +31,38 @@ namespace MediaPlayer.Forms
             "16 kHz"
         };
 
-        // =========================================================
-        // PRESETS
-        // =========================================================
-
         private readonly float[][] _presets =
         {
-            // Normal
             new float[]
             {
                 0, 0, 0, 0, 0,
                 0, 0, 0, 0, 0
             },
-
-            // Rock
             new float[]
             {
                 4, 3, 2, 0, -1,
                 1, 3, 4, 3, 2
             },
-
-            // Pop
             new float[]
             {
                 2, 1, 0, -1, -2,
                 0, 2, 3, 2, 1
             },
-
-            // Clásica
             new float[]
             {
                 3, 2, 1, 0, -1,
                 -1, 0, 2, 3, 4
             },
-
-            // Electrónica
             new float[]
             {
                 5, 4, 2, 0, -1,
                 1, 3, 4, 5, 4
             },
-
-            // Voz
             new float[]
             {
                 -3, -2, -1, 2, 4,
                 4, 3, 1, 0, -1
             },
-
-            // Bass Boost
             new float[]
             {
                 8, 7, 5, 3, 1,
@@ -102,10 +81,6 @@ namespace MediaPlayer.Forms
             -4   // Bass Boost
         };
 
-        // =========================================================
-        // CONSTRUCTOR
-        // =========================================================
-
         public EqualizerForm(
             LibVLCSharp.Shared.MediaPlayer mediaPlayer,
             Equalizer equalizer)
@@ -119,10 +94,6 @@ namespace MediaPlayer.Forms
 
             CargarValoresActuales();
         }
-
-        // =========================================================
-        // CONFIGURAR BANDAS
-        // =========================================================
 
         private void ConfigurarBandas()
         {
@@ -166,10 +137,6 @@ namespace MediaPlayer.Forms
                     Banda_Scroll;
             }
         }
-
-        // =========================================================
-        // CARGAR VALORES ACTUALES
-        // =========================================================
 
         private void CargarValoresActuales()
         {
@@ -218,10 +185,6 @@ namespace MediaPlayer.Forms
             }
         }
 
-        // =========================================================
-        // CAMBIAR BANDA
-        // =========================================================
-
         private void Banda_Scroll(
             object sender,
             EventArgs e)
@@ -248,15 +211,8 @@ namespace MediaPlayer.Forms
             _labelsValor[indice].Text =
                 FormatearDb(
                     barra.Value);
-
-            // Si modificamos manualmente
-            // ya no es un preset.
             cmbPresets.SelectedIndex = -1;
         }
-
-        // =========================================================
-        // PREAMP
-        // =========================================================
 
         private void trackBarPreamp_Scroll(
             object sender,
@@ -278,10 +234,6 @@ namespace MediaPlayer.Forms
             cmbPresets.SelectedIndex = -1;
         }
 
-        // =========================================================
-        // CAMBIAR PRESET
-        // =========================================================
-
         private void cmbPresets_SelectedIndexChanged(
             object sender,
             EventArgs e)
@@ -300,10 +252,6 @@ namespace MediaPlayer.Forms
 
             AplicarPreset(indice);
         }
-
-        // =========================================================
-        // APLICAR PRESET
-        // =========================================================
 
         private void AplicarPreset(
             int indice)
@@ -353,10 +301,6 @@ namespace MediaPlayer.Forms
             _mediaPlayer.SetEqualizer(
                 _equalizer);
         }
-
-        // =========================================================
-        // BOTÓN NORMAL
-        // =========================================================
 
         private void btnNormal_Click(
             object sender,
