@@ -12,7 +12,7 @@ namespace MediaPlayer.Forms
     {
         private LibVLC _libVLC;
         private LibVLCSharp.Shared.MediaPlayer _mediaPlayer;
-
+        private Equalizer _equalizer;
         private System.Windows.Forms.Timer _timer;
 
         private System.Windows.Forms.Timer _audioVisualizerTimer;
@@ -1452,7 +1452,7 @@ namespace MediaPlayer.Forms
                     AccionMiniSiguiente,
                     AccionMiniVolumen,
                     AccionMiniProgreso,
-                    AccionMiniRestaurar);
+                    RestaurarDesdeMiniPlayer);
         }
 
         private void ActualizarMiniPlayer()
@@ -1629,6 +1629,15 @@ namespace MediaPlayer.Forms
             _libVLC?.Dispose();
 
             base.OnFormClosing(e);
+        }
+     
+        private void btnEcualizador_Click(object sender, EventArgs e)
+        {
+            using (EqualizerForm formulario =
+                new EqualizerForm(_mediaPlayer, _equalizer))
+            {
+                formulario.ShowDialog(this);
+            }
         }
     }
 }
