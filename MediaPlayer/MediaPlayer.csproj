@@ -6,7 +6,12 @@
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
+    <ApplicationIcon>mediap.ico</ApplicationIcon>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="mediap.ico" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="LibVLCSharp.WinForms" Version="3.10.1" />
