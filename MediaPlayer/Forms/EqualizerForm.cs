@@ -86,7 +86,9 @@ namespace MediaPlayer.Forms
             Equalizer equalizer)
         {
             _mediaPlayer = mediaPlayer;
-            _equalizer = equalizer;
+
+            // Si MainForm aún no creó el ecualizador, crearlo aquí.
+            _equalizer = equalizer ?? new Equalizer();
 
             InitializeComponent();
 

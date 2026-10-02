@@ -22,25 +22,42 @@ namespace MediaPlayer.Services
         public void Start()
         {
             if (_running) return;
+
             try
             {
                 Stop();
+
                 _capture = new WasapiLoopbackCapture();
                 _sampleRate = _capture.WaveFormat.SampleRate;
                 _channels = Math.Max(1, _capture.WaveFormat.Channels);
-                _capture.DataAvailable += Capture_DataAvailable;
-                _capture.RecordingStopped += Capture_RecordingStopped;
-                lock (_lock) _sampleBuffer.Clear();
+
+                _capture.DataAvailable +=
+                    Capture_DataAvailable;
+
+                _capture.RecordingStopped +=
+                    Capture_RecordingStopped;
+
+                lock (_lock)
+                {
+                    _sampleBuffer.Clear();
+                    _ultimoCalculo = DateTime.MinValue;
+                }
+
                 _running = true;
                 _capture.StartRecording();
             }
             catch
             {
                 _running = false;
+
                 if (_capture != null)
                 {
-                    _capture.DataAvailable -= Capture_DataAvailable;
-                    _capture.RecordingStopped -= Capture_RecordingStopped;
+                    _capture.DataAvailable -=
+                        Capture_DataAvailable;
+
+                    _capture.RecordingStopped -=
+                        Capture_RecordingStopped;
+
                     _capture.Dispose();
                     _capture = null;
                 }
@@ -50,20 +67,38 @@ namespace MediaPlayer.Services
         public void Stop()
         {
             _running = false;
-            WasapiLoopbackCapture capture = _capture;
+
+            WasapiLoopbackCapture capture =
+                _capture;
+
             _capture = null;
+
             if (capture != null)
             {
                 try
                 {
-                    capture.DataAvailable -= Capture_DataAvailable;
-                    capture.RecordingStopped -= Capture_RecordingStopped;
+                    capture.DataAvailable -=
+                        Capture_DataAvailable;
+
+                    capture.RecordingStopped -=
+                        Capture_RecordingStopped;
+
                     capture.StopRecording();
                 }
                 catch { }
-                try { capture.Dispose(); } catch { }
+
+                try
+                {
+                    capture.Dispose();
+                }
+                catch { }
             }
-            lock (_lock) _sampleBuffer.Clear();
+
+            lock (_lock)
+            {
+                _sampleBuffer.Clear();
+                _ultimoCalculo = DateTime.MinValue;
+            }
         }
 
         private void Capture_DataAvailable(object sender, WaveInEventArgs e)

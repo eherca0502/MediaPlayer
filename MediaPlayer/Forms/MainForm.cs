@@ -5,6 +5,7 @@ using System.IO;
 using System.Windows.Forms;
 using LibVLCSharp.Shared;
 using MediaPlayer.Models;
+using MediaPlayer.Services;
 
 namespace MediaPlayer.Forms
 {
@@ -16,12 +17,16 @@ namespace MediaPlayer.Forms
         private System.Windows.Forms.Timer _timer;
 
         private System.Windows.Forms.Timer _audioVisualizerTimer;
+        private AudioSpectrumService _audioSpectrumService;
 
-        private readonly Random _visualizerRandom =
-            new Random();
+        private readonly float[] _visualizerBars =
+            new float[32];
 
-        private readonly int[] _visualizerBars =
-            new int[32];
+        private readonly float[] _visualizerTarget =
+            new float[32];
+
+        private readonly object _visualizerLock =
+            new object();
 
         private bool _reproduciendoAudio = false;
 
@@ -76,6 +81,12 @@ namespace MediaPlayer.Forms
             _mediaPlayer =
                 new LibVLCSharp.Shared.MediaPlayer(_libVLC);
 
+            _audioSpectrumService =
+                new AudioSpectrumService();
+
+            _audioSpectrumService.SpectrumAvailable +=
+                AudioSpectrumService_SpectrumAvailable;
+
             videoView1.MediaPlayer =
                 _mediaPlayer;
 
@@ -91,7 +102,7 @@ namespace MediaPlayer.Forms
             _audioVisualizerTimer =
                 new System.Windows.Forms.Timer();
 
-            _audioVisualizerTimer.Interval = 80;
+            _audioVisualizerTimer.Interval = 33;
 
             _audioVisualizerTimer.Tick +=
                 AudioVisualizerTimer_Tick;
@@ -412,29 +423,44 @@ namespace MediaPlayer.Forms
             if (panelAudioVisualizer == null)
                 return;
 
-            for (int i = 0;
-                 i < _visualizerBars.Length;
-                 i++)
+            _reproduciendoAudio = true;
+
+            lock (_visualizerLock)
             {
-                _visualizerBars[i] =
-                    _visualizerRandom.Next(10, 80);
+                for (int i = 0;
+                     i < _visualizerTarget.Length;
+                     i++)
+                {
+                    _visualizerTarget[i] = 0f;
+                    _visualizerBars[i] = 0f;
+                }
             }
+
+            _audioSpectrumService?.Start();
 
             panelAudioVisualizer.Visible = true;
 
-            _audioVisualizerTimer.Start();
+            _audioVisualizerTimer?.Start();
 
             panelAudioVisualizer.Invalidate();
         }
 
         private void DetenerVisualizadorAudio()
         {
-            if (_audioVisualizerTimer != null)
-            {
-                _audioVisualizerTimer.Stop();
-            }
+            _audioVisualizerTimer?.Stop();
+            _audioSpectrumService?.Stop();
 
             _reproduciendoAudio = false;
+
+            lock (_visualizerLock)
+            {
+                for (int i = 0;
+                     i < _visualizerTarget.Length;
+                     i++)
+                {
+                    _visualizerTarget[i] = 0f;
+                }
+            }
 
             if (panelAudioVisualizer != null)
             {
@@ -442,36 +468,74 @@ namespace MediaPlayer.Forms
             }
         }
 
+        private void AudioSpectrumService_SpectrumAvailable(
+            object sender,
+            float[] spectrum)
+        {
+            if (spectrum == null)
+                return;
+
+            lock (_visualizerLock)
+            {
+                int cantidad =
+                    Math.Min(
+                        _visualizerTarget.Length,
+                        spectrum.Length);
+
+                for (int i = 0;
+                     i < cantidad;
+                     i++)
+                {
+                    _visualizerTarget[i] =
+                        Math.Clamp(
+                            spectrum[i],
+                            0f,
+                            100f);
+                }
+
+                for (int i = cantidad;
+                     i < _visualizerTarget.Length;
+                     i++)
+                {
+                    _visualizerTarget[i] = 0f;
+                }
+            }
+        }
+
         private void AudioVisualizerTimer_Tick(
             object sender,
             EventArgs e)
         {
-            if (!_reproduciendoAudio)
-                return;
-
-            if (_mediaPlayer == null)
-                return;
-
-            if (!_mediaPlayer.IsPlaying)
-                return;
-
-            for (int i = 0;
-                 i < _visualizerBars.Length;
-                 i++)
+            if (!_reproduciendoAudio ||
+                _mediaPlayer == null ||
+                !_mediaPlayer.IsPlaying)
             {
-                int cambio =
-                    _visualizerRandom.Next(
-                        -25,
-                        26);
+                return;
+            }
 
-                _visualizerBars[i] +=
-                    cambio;
+            lock (_visualizerLock)
+            {
+                for (int i = 0;
+                     i < _visualizerBars.Length;
+                     i++)
+                {
+                    float objetivo =
+                        _visualizerTarget[i];
 
-                if (_visualizerBars[i] < 15)
-                    _visualizerBars[i] = 15;
+                    float actual =
+                        _visualizerBars[i];
 
-                if (_visualizerBars[i] > 90)
-                    _visualizerBars[i] = 90;
+                    actual +=
+                        (objetivo - actual) * 0.35f;
+
+                    if (Math.Abs(objetivo - actual) < 0.5f)
+                    {
+                        actual = objetivo;
+                    }
+
+                    _visualizerBars[i] =
+                        Math.Clamp(actual, 0f, 100f);
+                }
             }
 
             panelAudioVisualizer.Invalidate();
@@ -573,6 +637,11 @@ namespace MediaPlayer.Forms
 
                 btnPlayPause.Text =
                     "▶";
+
+                if (_reproduciendoAudio)
+                {
+                    DetenerVisualizadorAudio();
+                }
             }
             else
             {
@@ -588,9 +657,11 @@ namespace MediaPlayer.Forms
                 btnPlayPause.Text =
                     "⏸";
 
-                if (_reproduciendoAudio)
+                if (_reproduciendoAudio == false &&
+                    _currentIndex >= 0 &&
+                    EsArchivoDeAudio(_playlist[_currentIndex].FilePath))
                 {
-                    _audioVisualizerTimer.Start();
+                    IniciarVisualizadorAudio();
                 }
             }
         }
@@ -1614,7 +1685,15 @@ namespace MediaPlayer.Forms
 
             _timer?.Stop();
 
-            _audioVisualizerTimer?.Stop();
+            DetenerVisualizadorAudio();
+
+            if (_audioSpectrumService != null)
+            {
+                _audioSpectrumService.SpectrumAvailable -=
+                    AudioSpectrumService_SpectrumAvailable;
+                _audioSpectrumService.Dispose();
+                _audioSpectrumService = null;
+            }
 
             if (_mediaPlayer != null)
             {
@@ -1630,7 +1709,7 @@ namespace MediaPlayer.Forms
 
             base.OnFormClosing(e);
         }
-     
+
         private void btnEcualizador_Click(object sender, EventArgs e)
         {
             using (EqualizerForm formulario =
