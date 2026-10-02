@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="assets/mediap.png" alt="MediaPlayer" width="180">
+<img src="MediaPlayer/assets/mediap.png" alt="MediaPlayer" width="180">
 
 # MediaPlayer
 
